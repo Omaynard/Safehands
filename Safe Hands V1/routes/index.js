@@ -26,8 +26,14 @@ router.get('/register', function(req, res, next) {
 //POST/register
 
 router.post('/register', function(req, res, next) {
-  return res.send('User Created');
-});
+  if (req.body.name){
+
+  }else {
+    var err = new Error('All field required.');
+    err.status = 400;
+    return next(err);
+  }
+})
 
 
 router.get('/evidence', function(req, res, next) {
@@ -36,6 +42,10 @@ router.get('/evidence', function(req, res, next) {
 
 router.get('/depositchecker', function(req, res, next) {
   return res.render('depositchecker',{title:'Deposit Checker'});
+});
+
+router.get('/services' , function(req, res, next) {
+  return res.render('services',{title:'Services'});
 });
 
 
