@@ -26,9 +26,33 @@ router.get('/register', function(req, res, next) {
 //POST/register
 
 router.post('/register', function(req, res, next) {
-  if (req.body.name){
+  if (req.body.name &&
+    req.body.password &&
+    req.body.confirmPassword){
 
-  }else {
+      //confirm that password and confirmpassword are the same 
+      if (req.body.password !== req.body.confirmPassword) {
+        var err =  new Error('Password do not match.');
+        err.status = 400; 
+        return next(err);
+      } 
+
+      var userData = {
+        email : req.body.email,
+        name : req.body.name,
+        password : req.body.password
+      };
+
+      // use schema create method to insert document into Mongo
+
+      User.create(userData, function (error, user){
+        if (error) {
+          return next(error);
+        } else {
+          return res.redirect('/profile');
+        }
+      });
+  } else {
     var err = new Error('All field required.');
     err.status = 400;
     return next(err);
